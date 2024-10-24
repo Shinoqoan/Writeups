@@ -7,6 +7,8 @@
 **Mục tiêu challenge:**
 Your goal is to hack this photo galery by uploading PHP code. Retrieve the validation password in the file .passwd.
 
+**Tác giả Writeup:** Shino
+
 ---
 
 # Bài giải

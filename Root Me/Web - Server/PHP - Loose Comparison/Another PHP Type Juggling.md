@@ -54,9 +54,10 @@ if (isset($_POST['s']) && isset($_POST['h'])) {
 
 Nhưng PHP lại có 1 điểm rất thú vị giúp chúng ta có thể bybass được đoạn code if trên và điểm đó chính là PHP khi so sánh 1 string có dạng `0e13213131` với số `0` có kiểu dữ liệu số thì nó sẽ trả về kết quả là 2 thằng bằng nhau.
 
-Thật kỳ lạ đúng không ? Vì PHP sẽ xem 1 chuỗi string bắt đầu bằng `0e` và sau nó toàn là chữ số thì PHP sẽ hiểu là đây là 0 mũ ...
+Thật kỳ lạ đúng không ? Tại sao hai thằng khác kiểu dữ liệu lại có thể trả về kết quả bằng nhau ?
+* **Trả lời:** Đơn giản là vì PHP sẽ xem 1 chuỗi string bắt đầu bằng `0e` và sau nó toàn là chữ số thì PHP sẽ hiểu là đây là 0 mũ ...
 
-**VD:** 0e12345 thì PHP sẽ hiểu là 0^12345
+**VD:** 0e12345 thì PHP sẽ hiểu là 0^12345 và là kiểu dữ liệu số
 
 Cho nên, ta có thể lợi dụng điểm này để vế trái và vế phải của `if($s.$r == $h)` đều bằng 0 thì ta sẽ vượt qua được kiểm tra.
 

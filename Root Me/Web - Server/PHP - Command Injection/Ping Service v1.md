@@ -1,8 +1,10 @@
 # File Upload - MIME type
 
-**Tác giả challenge:** sambecks
+**Tên challenge:** Ping Service v1
 
 **Link challenge:** [Here](https://www.root-me.org/en/Challenges/Web-Server/PHP-Command-injection)
+
+**Tác giả challenge:** sambecks
 
 **Mục tiêu challenge:**
 Find a vulnerabilty in this service and exploit it. You must manage to read index.php

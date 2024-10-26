@@ -15,11 +15,11 @@
 # Bài giải
 **B1:** Đầu tiên, giao diện Website khá đơn giản, chỉ có 1 bản CV và 1 chức năng Login:
 
-![alt text](image.png)
+![alt text](./images/image.png)
 
 Khi nhấn chuyển sang trang Login thì ta thấy có trường input User và Password đã được điền sẵn
 
-![alt text](image-1.png)
+![alt text](./images/image-1.png)
 
 Nhưng khi nhấn Login thì ta không thể đăng nhập được. Ngoài ra, khi ta đọc bản rõ của password thì ta thấy được password có giá trị là `Can you guess my password?`
 
@@ -78,7 +78,7 @@ Sau đó, ta sẽ có được password của `john` là `Doejohn9007`.
 
 **B4:** Ta login với password vừa brute được thì Website chuyển hướng ta sang 1 trang mới.
 
-![alt text](image-2.png)
+![alt text](./images/image-2.png)
 
 Khi ta mài mò các tính năng, ta phát hiện trang web này có 2 tính năng:
 
@@ -93,7 +93,7 @@ Câu hỏi được đặt ra ở đây là: Dựa vào hai tính năng này th�
 
 Ta thu được kết quả là danh sách các file được list ở thư mục `/www` như sau:
 
-![alt text](image-3.png)
+![alt text](./images/image-3.png)
 
 **B6:** Thử truy cập vào endpoint `/robots.txt` thì Website trả về kết quả:
 
@@ -113,7 +113,7 @@ Quay lại với Website có 2 chức năng Fetch và Update để tìm manh m�
 
 **B8:** Thử đổi giá trị của parameter `file` thành `../../../../../../../etc/passwd` ( Path Traversal Payload )
 
-![alt text](image-4.png)
+![alt text](./images/image-4.png)
 
 => Website này bị lỗi Path Travesal, dẫn đến ta có thể truy cập đến bất kỳ file nào trong hệ thống. Ngoài ra, ta cũng có thể sửa đổi nội dung của chúng và nhấn nút `Update` sau khi sửa đổi.
 
@@ -145,7 +145,7 @@ Vậy thì sẽ ra sao nếu ta có được vị trí và tên chính xác củ
 
 **B11:** Truy cập vào endpoint `/test.php`
 
-![alt text](image-5.png)
+![alt text](./images/image-5.png)
 
 => Vậy là ta đã thực thi thành công code PHP theo ý muốn của mình.
 

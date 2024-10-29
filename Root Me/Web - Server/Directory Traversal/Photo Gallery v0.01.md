@@ -90,5 +90,5 @@ Ta so sánh với thư mục chứa `password.txt` sẽ phát hiện chúng ở 
 http://challenge01.root-me.org/web-serveur/ch15/galerie/86hwnX2r/password.txt
 ```
 
-=> Kết quả trang Web đã trả về nội dung file password.txt cho ta: `kcb$!Bx@v4Gs9Ez `
+=> Kết quả trang Web đã trả về nội dung file `password.txt` cho ta: `kcb$!Bx@v4Gs9Ez `
 

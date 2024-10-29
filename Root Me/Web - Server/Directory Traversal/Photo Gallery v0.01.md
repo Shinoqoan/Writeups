@@ -78,7 +78,7 @@ Ta thu được 3 file: `password.txt`, `hacked_web.jpg`, `secret.png`
 
 Vậy là ta đã tìm được file `password.txt` nhưng câu hỏi tiếp theo là làm sao để đọc được nó. Vì parameter `galerie` chỉ nhận giá trị là đường dẫn đến thư mục thôi.
 
-**Trả lời:** Quay lại trang chủ, khi ta đọc Source Code sẽ có những **ANCHOR** tương ứng với những bức ảnh trong các mục Gallery. Khi ta click vào các đường dẫn đó thì Website sẽ chuyển hướng ta sang URL chứa ảnh đó có dạng sau:
+* **Trả lời:** Quay lại trang chủ, khi ta đọc Source Code sẽ có những **ANCHOR** tương ứng với những bức ảnh trong các mục Gallery. Khi ta click vào các đường dẫn đó thì Website sẽ chuyển hướng ta sang URL chứa ảnh đó có dạng sau:
 ```
 http://challenge01.root-me.org/web-serveur/ch15/galerie/apps/kexi.png
 ```

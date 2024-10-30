@@ -24,7 +24,7 @@
 
 Thông thường câu truy vấn liên quan đến chức năng Login sẽ có dạng:
 ```
-SELECT username, password WHERE username = $username and password = $password
+SELECT username, password WHERE username = $username and password = $password;
 ```
 **B3:** Do đó ta thử nhập input của `username` là `admin' -- a` và `password` thì tuỳ ý.
 
@@ -34,7 +34,7 @@ SELECT username, password WHERE username = $username and password = $password
 
 Nhưng yêu cầu của Challenge là ta phải lấy được `password`, chứ không phải là đăng nhập thành công. Vì vậy, bây giờ ta phải chèn câu truy vấn làm sao để tìm ra `password`.
 
-Cách của tôi là ta sẽ mò từng ký tự trong `password` và ta sẽ dùng cú pháp `LIKE` trong SQL để làm được việc này:
+Cách của tôi là mò từng ký tự trong `password` và ta sẽ dùng cú pháp `LIKE` trong SQL để làm được việc này:
 ```
 SELECT * FROM users WHERE username LIKE 'a%';
 ```

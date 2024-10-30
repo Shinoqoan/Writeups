@@ -39,7 +39,7 @@ Warning: file_exists(): open_basedir restriction in effect. File(galerie/../../.
 
 2. `open_basedir`: Đây là tùy chọn cấu hình trong PHP giới hạn quyền truy cập vào các tệp và thư mục chỉ nằm trong một phạm vi nhất định. Điều này ngăn chặn truy cập ngoài phạm vi đã cho, giúp tăng cường bảo mật cho hệ thống.
 
-Tóm lại, cảnh báo này ngăn không cho phép truy cập tệp ngoài phạm vi đã cấu hình. `open_basedir` ở đây là một cơ chế bảo mật, giúp giới hạn truy cập tệp và thư mục, ngăn chặn các tấn công kiểu `Path Traversal`.
+Tóm lại, cảnh báo này ngăn không cho phép truy cập tệp ngoài phạm vi đã cấu hình. `open_basedir` ở đây là một cơ chế bảo mật, giúp giới hạn truy cập tệp và thư mục, ngăn chặn các tấn công kiểu `Path Traversal`,...
 
 Tuy nhiên, khi ta nhìn thử vào đoạn lỗi thì ta phát hiện đường dẫn chính xác chứa file `ch15.php` ( File mà ta đang tương tác ) là `/challenge/web-serveur/ch15/ch15.php`.
 

@@ -46,8 +46,8 @@ SELECT * FROM users WHERE username LIKE 'a%';
 
 Sở dĩ, tôi nói như vậy là vì khi câu truy vấn thử tới hai ký tự này thì Website đều cho cả 2 đăng nhập thành công. Nhưng như vậy thì làm sao ta biết được `password` thật sự là gì ? Chút nữa tôi sẽ giải đáp
 
-<u>**Thông tin thêm:**</u> Sẽ có nhiều người thắc mắc là liệu có cú pháp nào để làm cho nó ra đúng ký tự của nó không ?
-* Thì câu trả lời là có, đó là dùng `UNION SELECT DISTINCT`, tuy nhiên Website đã chặn 1 trong các từ khoá trên, cho nên phương pháp đó không còn khả thi nữa.
+<u>**Thông tin thêm:**</u> Sẽ có nhiều người thắc mắc là liệu có cú pháp nào để làm cho ra đúng ký tự của nó không ?
+* Câu trả lời là có, đó là dùng `UNION SELECT DISTINCT`, tuy nhiên Website đã chặn 1 trong các từ khoá trên, cho nên phương pháp đó không còn khả thi nữa.
 
 **B5:** Ta tiếp tục Brute-force đến ký tự thứ 2 trong `password`, vẫn là câu truy vấn đó nhưng chỉnh sửa 1 chút:
 `admin' AND password LIKE 'Ea%' --` hoặc `admin' AND password LIKE 'ea%' --`

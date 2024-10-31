@@ -1,4 +1,4 @@
-# File Upload - MIME type
+# Local File Inclusion
 
 **Tên challenge:**  Abbreviated LFI
 

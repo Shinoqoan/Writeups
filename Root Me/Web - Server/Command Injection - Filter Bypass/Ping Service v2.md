@@ -1,4 +1,4 @@
-# File Upload - MIME type
+# Command Injection - Filter Bypass
 
 **Tên challenge:** Ping Service v2
 

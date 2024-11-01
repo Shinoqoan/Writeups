@@ -1,6 +1,6 @@
 # PHP Eval
 
-**Tên challenge:**  Non-alphanumeric PHP code
+**Tên challenge:**  Non-alphanumeric PHP Code
 
 **Link challenge:** [Here](https://www.root-me.org/en/Challenges/Web-Server/PHP-Eval)
 

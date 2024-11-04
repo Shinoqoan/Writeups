@@ -124,7 +124,7 @@ Từ kết quả trả về ở trên là 1, 2, 4 thì ta có thể thử thay �
 ```
 -1%09UNION%09SELECT%09*%09FROM%09(SELECT%091)a%09JOIN%09(SELECT%092)b%09JOIN%09(SELECT%093)c%09JOIN%09(SELECT%09pass%09From%09membres%09LImit%091)d
 ```
-**Cụ thể:** Câu truy vấn trên đã thay đổi ở chỗ `SELECT 4` -> `SELECT pass FROM membres LMIT 1`.
+**Cụ thể:** Câu truy vấn trên đã thay đổi ở chỗ `SELECT 4` -> `SELECT pass FROM membres LIMIT 1`.
 
 Ta phải thêm `LIMIT 1` vì:
 1. Ta không thể Bypass được filter `WHERE` nên không thể thêm điều kiện `WHERE id=1`

@@ -51,8 +51,8 @@ Ngoài ra, khi ta `View Page Source` của trang thì ta phát hiện được �
 ```
 Từ Comment trên, ta rút ra được vài manh mối sau:
 1. Table `membres` có 4 cột lần lượt là `id`, `username`, `pass`, `email`.
-2. `id` là kiểu dữ liệu int.
-3. Database của trang Web là MySQL.
+2. `id` là kiểu dữ liệu `int`.
+3. Database của trang Web là `MySQL`.
 
 Lúc bây giờ, khi ta nhìn lên URL của trang Web thì ta sẽ thấy URL bây giờ đã có thêm 1 parameter `id`:
 ```

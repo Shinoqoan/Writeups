@@ -1,4 +1,4 @@
-# SQL Injection - Blind
+# SQL Injection - Filter Bypass ( Hard )
 
 **Tên challenge:** Authentication v 0.03
 

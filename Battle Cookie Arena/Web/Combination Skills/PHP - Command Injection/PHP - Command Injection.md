@@ -1,4 +1,4 @@
-# SQL Injection
+# Combination Skills
 
 **Tên challenge:** PHP có làm em lo lắng
 

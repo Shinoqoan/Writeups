@@ -1,4 +1,4 @@
-# Combination skills
+# Combination Skills
 
 **Tên challenge:** Curriculum Vitae
 

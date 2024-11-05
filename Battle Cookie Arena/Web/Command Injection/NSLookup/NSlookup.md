@@ -32,7 +32,7 @@ Sau đó, ta đọc View Page Code thì biết được Website đã dùng Filte
 ```
 const domainPattern = /^(?!:\/\/)([a-zA-Z0-9-_]+\.)+[a-zA-Z]{2,}$/;
 ```
-Như ta đã biết thì ngoài các dấu `;`, `|`, `&` thì còn có ký tự xuống dòng `%0a` giúp ta kéo dài input và chèn thêm câu Command vào sau.
+Như ta đã biết thì ngoài các dấu `;`, `|`, `&` để thực thi **multiple commands** thì còn có ký tự xuống dòng `%0a` giúp ta kéo dài input và chèn thêm câu Command vào sau.
 
 Nhưng ta để ý kết quả trả về google.com ở trên thì ta thấy đoạn `nslookup 'google.com'` được đặt nằm ở trong 2 dấu `'`.
 
@@ -42,7 +42,7 @@ Nhưng ta để ý kết quả trả về google.com ở trên thì ta thấy đ
 
 => `nslookup 'google.com'` bị dư 1 dấu `'` và không trả về kết quả.
 
-Vậy thì sẽ ra sao nếu ta thêm dấu `#` để biến dấu `'` bị dư thành Comment trong linux thì liệu trang Web có thực thi lệnh bình thường không ?
+Vậy thì sẽ ra sao nếu ta thêm dấu `#` để biến dấu `'` bị dư thành **Comment** trong Linux thì liệu trang Web có thực thi lệnh bình thường không ?
 
 <u>**Lưu ý:**</u> Mọi payload thử nghiệm nên được làm trên gói tin BurpSuite để tránh bị lỗi.
 
@@ -76,7 +76,11 @@ Vậy thì bước kế tiếp ta sẽ dùng lệnh `find` để tìm ra các fi
 
 ![alt text](./images/image-6.png)
 
-**B8:** Ta tiến hành đọc flag bằng lệnh `google.com'%0a cd / %0a tac flagmOZfQ.txt #`
+<u>**Giải thích:**</u>
+* `cd /`: Dùng để đưa ta về thư mục `/`
+* `find . -type f`: Tìm các file nằm ở trong thư mục hiện tại ( tức là ở thư mục `/` do ta `cd` trước đó)
+
+**B8:** Ta tiến hành đọc Flag bằng lệnh `google.com'%0a cd / %0a tac flagmOZfQ.txt #`
 
 ![alt text](./images/image-8.png)
 

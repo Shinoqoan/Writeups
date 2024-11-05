@@ -113,7 +113,7 @@ Fatal error: Uncaught ValueError: Path cannot be empty in /var/www/html/index.ph
 
 ![alt text](./images/image-4.png)
 
-=> Vậy là ta đã làm cho hệ thống thực thi file PHAR của ta
+=> Vậy là ta đã làm cho hệ thống thực thi file `PHAR` của ta
 
 **Lưu ý:** Input bắt buộc phải có thêm `/test.txt` vì file `/test.txt` mới là file chứa code PHP mà ta đã ẩn nó ở trong file `.jpg`.
 

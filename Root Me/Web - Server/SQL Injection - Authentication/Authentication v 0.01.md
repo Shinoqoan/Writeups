@@ -83,4 +83,15 @@ with open(output_file_path, "w") as file:
 ```
 **B6:** Ta tiếp tục Brute-force `password` với file `variations.txt` vừa được tạo ra
 
-=> Cuối cùng, ta thu được kết quả đúng là: `t0_W34k!$`
+=> Cuối cùng, ta thu được kết quả đúng là: `t0_W34k!$`.
+
+<u>**Thông tin thêm:**</u> Sẽ có nhiều người thắc mắc là liệu có cú pháp nào khác ngoài `LIKE` để làm cho ra đúng ký tự của nó không ?
+* Câu trả lời là có, đó là dùng dùng cú pháp `HEX(SUBSTR(password,1,1))=HEX('a')`
+* Với:
+    * **Tham số đầu tiên (password):** là chuỗi bạn muốn kiểm tra.
+    * **Tham số thứ hai (2):** là vị trí bắt đầu (ở đây là ký tự thứ 2).
+    * **Tham số thứ ba (1):** là độ dài của chuỗi con mà bạn muốn lấy (1 ký tự).
+
+```
+SELECT * FROM users WHERE HEX(SUBSTR(username, 1, 1)) = HEX('a');
+```

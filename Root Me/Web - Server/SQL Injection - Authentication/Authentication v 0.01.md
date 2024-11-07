@@ -1,8 +1,8 @@
-# SQL Injection - Blind
+# SQL Injection - Authentication
 
-**Tên challenge:** Authentication v 0.02
+**Tên challenge:** Authentication v 0.01
 
-**Link challenge:** [Here](https://www.root-me.org/en/Challenges/Web-Server/SQL-injection-Blind)
+**Link challenge:** [Here](https://www.root-me.org/en/Challenges/Web-Server/SQL-injection-authentication)
 
 **Tác giả challenge:** g0uZ
 
@@ -17,6 +17,7 @@
 **B1:** Đầu tiên, giao diện Website khá đơn giản, chỉ có 1 chức năng Login:
 
 ![alt text](./images/image.png)
+
 
 **B2:** Ta thử đăng nhập với username là `admin` và password là `admin`
 
@@ -42,18 +43,18 @@ SELECT * FROM users WHERE username LIKE 'a%';
 
 **B4:** Ta bắt đầu thử với brute-force ký tự đầu tiên trong `password` bằng cách nhập input của `username` là `admin' AND password LIKE 'a%' --`, và input của trường `password` thì tuỳ ý.
 
-=> Kết quả sau khi Brute-force, ta tìm ra được ký tự: `e` hoặc `E` là ký tự đầu tiên trong `password`.
+=> Kết quả sau khi Brute-force, ta tìm ra được ký tự: `t` hoặc `T` là ký tự đầu tiên trong `password`.
 
 Sở dĩ, tôi nói như vậy là vì khi câu truy vấn thử tới hai ký tự này thì Website đều cho cả 2 đăng nhập thành công. Nhưng như vậy thì làm sao ta biết được `password` thật sự là gì ? Chút nữa tôi sẽ giải đáp
 
 **B5:** Ta tiếp tục Brute-force đến ký tự thứ 2 trong `password`, vẫn là câu truy vấn đó nhưng chỉnh sửa 1 chút:
-`admin' AND password LIKE 'Ea%' --` hoặc `admin' AND password LIKE 'ea%' --`
+`admin' AND password LIKE 'Ta%' --` hoặc `admin' AND password LIKE 'ta%' --`
 
-* **Giải thích:** Lúc này câu truy vấn sẽ tìm kết quả có `password` bắt đầu bằng 2 ký tự `Ea` hoặc `ea`
+* **Giải thích:** Lúc này câu truy vấn sẽ tìm kết quả có `password` bắt đầu bằng 2 ký tự `Ta` hoặc `ta`
 
 Tiếp tục đến khi ta không tìm được ký tự nào nữa trong cả quá trình Brute-force thì có nghĩa là ta đã đạt giới hạn độ dài của `password`.
 
-=> Cuối cùng, ta sẽ thu được kết quả `password` Brute-force được là: `e2azo93i`
+=> Cuối cùng, ta sẽ thu được kết quả `password` Brute-force được là: `t0_W34k!$`
 
 Và vì ta không biết được trong chuỗi `password` trên, ký tự nào in thường và ký tự nào in hoa nên ta sẽ dùng code python bên dưới để tìm ra tất cả các trường hợp ( từ [ `E2azo93i -> E2AZO93I` ]) có thể xảy ra của chuỗi trên.
 
@@ -76,21 +77,10 @@ for combo in product((0, 1), repeat=len(case_positions)):
     variations.append("".join(temp_string))
 
 # Write to a file
-output_file_path = "./e2azo93i_variations.txt"
+output_file_path = "./variations.txt"
 with open(output_file_path, "w") as file:
     file.write("\n".join(variations))
 ```
-**B6:** Ta tiếp tục Brute-force `password` với file `e2azo93i_variations.txt` vừa được tạo ra
+**B6:** Ta tiếp tục Brute-force `password` với file `variations.txt` vừa được tạo ra
 
-=> Cuối cùng, ta thu được kết quả đúng là: `e2azO93i`
-
-<u>**Thông tin thêm:**</u> Sẽ có nhiều người thắc mắc là liệu có cú pháp nào khác ngoài `LIKE` để làm cho ra đúng ký tự của nó không ?
-* Câu trả lời là có, đó là dùng dùng cú pháp `HEX(SUBSTR(password,1,1))=HEX('a')`
-* Với:
-    * **Tham số đầu tiên (password):** là chuỗi bạn muốn kiểm tra.
-    * **Tham số thứ hai (2):** là vị trí bắt đầu (ở đây là ký tự thứ 2).
-    * **Tham số thứ ba (1):** là độ dài của chuỗi con mà bạn muốn lấy (1 ký tự).
-
-```
-SELECT * FROM users WHERE HEX(SUBSTR(username, 1, 1)) = HEX('a');
-```
+=> Cuối cùng, ta thu được kết quả đúng là: `t0_W34k!$`

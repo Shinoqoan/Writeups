@@ -40,7 +40,7 @@ Lúc này, câu hỏi đặt ra là: `Chức năng chỉ cho phép up những fi
 
 Khi ta Upload lại lần nữa thì kết quả trả về là:
 
-![alt text](image-3.png)
+![alt text](./images/image-3.png)
 
 
 **B4:** Ta thử click vào đường dẫn trên:

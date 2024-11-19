@@ -52,12 +52,21 @@ if (isset($_POST['s']) && isset($_POST['h'])) {
 
 ` Câu hỏi đặt ra lúc này là: "Liệu làm sao để ta bybass được if($s.$r == $h) ? Vì để 1 giá trị $s nhân với 1 số ngẫu nhiên bằng với giá trị hash $h thì như mò kim đáy bể"`
 
-Nhưng PHP lại có 1 điểm rất thú vị giúp chúng ta có thể bybass được đoạn code if trên và điểm đó chính là PHP khi so sánh 1 string có dạng `0e13213131` với số `0` có kiểu dữ liệu số thì nó sẽ trả về kết quả là 2 thằng bằng nhau.
+Nhưng PHP lại có 1 điểm rất thú vị giúp chúng ta có thể bybass được đoạn code if trên và điểm đó chính là PHP khi so sánh 1 string có dạng `0e13213131` với số `0` có kiểu dữ liệu số thông qua dấu `==` thì nó sẽ trả về kết quả là 2 thằng bằng nhau.
 
 Thật kỳ lạ đúng không ? Tại sao hai thằng khác kiểu dữ liệu lại có thể trả về kết quả bằng nhau ?
-* **Trả lời:** Đơn giản là vì PHP sẽ xem 1 chuỗi string bắt đầu bằng `0e` và sau nó toàn là chữ số thì PHP sẽ hiểu là đây là 0 mũ ...
+* **Trả lời:** Đơn giản là vì khi PHP khi sử dụng toán tử so sánh `==`, PHP sẽ tự động ép kiểu `(type juggling)` để thực hiện so sánh nếu các giá trị so sánh có kiểu dữ liệu khác nhau. PHP sẽ lấy 1 trong 2 giá trị đầu tiên làm chuẩn và ép kiểu giá trị còn lại theo kiểu dữ liệu của giá trị được lấy làm chuẩn.
 
-**VD:** 0e12345 thì PHP sẽ hiểu là 0^12345 và là kiểu dữ liệu số
+**VD:**
+```
+var_dump(123 == "123"); // true (ép "123" thành số 123)
+var_dump("123abc" == 123); // true (ép "123abc" thành số 123, phần chữ bị bỏ qua)
+var_dump(123 == "abc"); // false (ép "abc" thành 0)
+```
+
+* Tương tự PHP sẽ xem 1 chuỗi string bắt đầu bằng `0e` và sau nó toàn là chữ số thì PHP sẽ hiểu là đây là 0 mũ ...
+
+**VD:** `0e12345` thì PHP sẽ hiểu là `0^12345` và là kiểu dữ liệu số
 
 Cho nên, ta có thể lợi dụng điểm này để vế trái và vế phải của `if($s.$r == $h)` đều bằng 0 thì ta sẽ vượt qua được kiểm tra.
 

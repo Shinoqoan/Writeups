@@ -16,7 +16,7 @@
 
 **B1:** Đầu tiên, giao diện Website chỉ có 2 chức năng Login và Register:
 
-![alt text](image.png)
+![alt text](./images/image.png)
 
 **B2:** Ta thử đăng ký với `username` và `password` là `test`
 
@@ -24,19 +24,19 @@
 
 Sau đó, trang Web sẽ chuyển hướng ta đến với 1 trang hiển thị như hình dưới:
 
-![alt text](image-1.png)
+![alt text](./images/image-1.png)
 
 Xem ra, trang Web này cũng khá đơn giản. Mài mò 1 lúc thì ta tổng kết được:
 * Button `Export to CSV` khi ta click vào nó sẽ xuất ra 1 file `.csv` với tên file được random ngẫu nhiên và lưu vào thư mục `/file/ten_file_random.csv`.
 
 Khi ta truy cập vào đường dẫn của file vừa export ra thì ta biết được nội dung của file đó sẽ là thông tin `username` và `timestamp` ở trang chủ.
 
-![alt text](image-2.png)
+![alt text](./images/image-2.png)
 
 
 Ngoài ra, khi ta quan sát gói tin khi ta nhấn nút `Export to CSV` thì gói tin POST sẽ được gửi đi và trong gói tin POST đó có 1 tham số là `filename`
 
-![alt text](image-4.png)
+![alt text](./images/image-4.png)
 
 **Giả thuyết:** Vậy thì sẽ ra sao nếu ta đăng ký `username` với nội dung là `<?php phpinfo(); ?>`, sau đó ta sẽ xuất file và đổi `filename` thành `test.php`, vậy khi ta truy cập vào đường dẫn `file/test.php` thì trang Web có thực thi code không ?
 
@@ -44,7 +44,7 @@ Ngoài ra, khi ta quan sát gói tin khi ta nhấn nút `Export to CSV` thì gó
 
 Kết quả là trang Web không thực thi code, lý do là vì trang Web đã tự động Filter khi gặp cú pháp `<?php` và đổi nó thành:
 
-![alt text](image-3.png)
+![alt text](./images/image-3.png)
 
 Ký tự `#` đã làm cho toàn bộ code sau nó thành comment, vì vậy trang Web đã không thực thi code của ta.
 
@@ -52,7 +52,7 @@ Ký tự `#` đã làm cho toàn bộ code sau nó thành comment, vì vậy tra
 
 **B5:** Ta thử đăng ký với `username` là `<?= phpinfo(); ?>` và thử lại với giả thuyết trên.
 
-![alt text](image-5.png)
+![alt text](./images/image-5.png)
 
 => Trang Web đã thực thi code PHP của ta, tiếp theo là lấy `Flag` thôi.
 

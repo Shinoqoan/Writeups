@@ -103,7 +103,8 @@ Ta lưu lại đường dẫn tới file `PHAR` của ta:
 Nhưng kết quả vẫn in ra lỗi, vì ta vẫn chưa biết được đường dẫn chính xác của thư mục `uploads` đang ở đâu.
 
 Vậy thì làm sao ta biết được thư mục uploads đang ở đầu
-Trả lời: Khi ta Click thử nút Submit ở chức năng Upload ảnh mà không chọn File ảnh nào trước đó, nó sẽ in ra dòng lỗi sau:
+
+* **Trả lời:** Khi ta Click thử nút Submit ở chức năng Upload ảnh mà không chọn File ảnh nào trước đó, nó sẽ in ra dòng lỗi sau:
 ```
 Fatal error: Uncaught ValueError: Path cannot be empty in /var/www/html/index.php:22 Stack trace: #0 /var/www/html/index.php(22): fopen('', 'rb') #1 {main} thrown in /var/www/html/index.php on line 22
 ```

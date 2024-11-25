@@ -38,7 +38,7 @@ Ngoài ra, khi ta quan sát gói tin khi ta nhấn nút `Export to CSV` thì gó
 
 ![alt text](./images/image-4.png)
 
-**Giả thuyết:** Vậy thì sẽ ra sao nếu ta đăng ký `username` với nội dung là `<?php phpinfo(); ?>`, sau đó ta sẽ xuất file và đổi `filename` thành `test.php`, vậy khi ta truy cập vào đường dẫn `file/test.php` thì trang Web có thực thi code không ?
+**Giả thuyết:** Vậy thì sẽ ra sao nếu ta đăng ký `username` là `<?php phpinfo(); ?>`, sau đó ta sẽ xuất file `.csv` và đổi `filename` trong gói tin POST khi xuất file thành `test.php` thay vì `ten_file_random.csv`, vậy khi ta truy cập vào đường dẫn `file/test.php` thì trang Web có thực thi code không ?
 
 **B4:** Ta thử với giả thuyết trên
 

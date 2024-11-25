@@ -109,7 +109,7 @@ Hello, world!www /www
 
 Ngoài ra, các endpoint khác trong danh sách trên cũng chẳng thu được gì có ích.
 
-Quay lại với Website có 2 chức năng Fetch và Update để tìm manh mối khác thì ta phát hiện url `/update_cv.php?file=cv1.json&action=fetch` có parameter `file` rất có khả năng để ta khai thác. Vì thông thường các parameter liên quan đến gọi file, nếu không được xử lý đúng cách thì rất dễ xuất hiện lổ hổng.
+Quay lại với Website có 2 chức năng Fetch và Update để tìm manh mối khác thì ta phát hiện url `/update_cv.php?file=cv1.json&action=fetch` có parameter `file` rất có khả năng để ta khai thác. Vì thông thường các parameter liên quan đến gọi file, nếu không được xử lý đúng cách thì rất dễ xuất hiện lỗ hổng.
 
 **B8:** Thử đổi giá trị của parameter `file` thành `../../../../../../../etc/passwd` ( Path Traversal Payload )
 

@@ -74,8 +74,8 @@ hello
 ```
 
 **Giải thích:**
-* Khi ta nhập dấu `*` trong Linux thì bạn hãy tưởng tượng nó sẽ lấy tất cả các file đưa vào chung 1 mảng, ( **VD:** `[cat, flag.txt, abc.txt]` ).
-* Sau đó, Linux sẽ ghép tất cả các file vào với nhau. ( **VD:** `cat flag.txt`, `cat abc.txt`, `flag.txt cat`, `flag.txt abc.txt`, `abc.txt cat`, `abc.txt flag.txt`  ), thì điểm ta muốn lợi dụng ở đây là lệnh `cat flag.txt`, thì khi nó thực thi lệnh này thì nó sẽ trả về kết quả file `flag.txt` cho ta.
+* Khi ta nhập dấu `*` trong Linux thì bạn hãy tưởng tượng nó sẽ lấy tất cả các file đưa vào chung 1 mảng ( **VD:** `[cat, flag.txt, abc.txt]` ).
+* Sau đó, Linux sẽ ghép tất cả các file vào với nhau. ( **VD:** `cat flag.txt`, `cat abc.txt`, `flag.txt cat`, `flag.txt abc.txt`, `abc.txt cat`, `abc.txt flag.txt`, `cat flag.txt abc.txt`, ... ), thì điểm ta muốn lợi dụng ở đây là lệnh `cat flag.txt`, thì khi nó thực thi lệnh này thì nó sẽ trả về kết quả file `flag.txt` cho ta.
 
 **B6:** Ta bắt đầu làm giống như thí nghiệm trên, đầu tiên ta tạo file `cat` thông qua lệnh `>cat`:
 

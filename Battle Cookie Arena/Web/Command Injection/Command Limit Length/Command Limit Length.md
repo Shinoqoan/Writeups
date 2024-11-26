@@ -2,7 +2,7 @@
 
 **Tên challenge:** Command Limit Length
 
-**Link challenge:** [Here](https://battle.cookiearena.org/skills-path/os-command-injection/challenge/command-limit-length)
+**Link challenge:** [Here](https://battle.cookiearena.org/challenges/web/command-limit-length)
 
 **Tác giả challenge:** MEME
 

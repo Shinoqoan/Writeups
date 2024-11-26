@@ -2,7 +2,7 @@
 
 **Tên challenge:** Youtube Downloader
 
-**Link challenge:** [Here](https://battle.cookiearena.org/skills-path/os-command-injection/challenge/youtube-downloader)
+**Link challenge:** [Here](https://battle.cookiearena.org/challenges/web/youtube-downloader)
 
 **Tác giả challenge:** DK189
 

@@ -2,7 +2,7 @@
 
 **Tên challenge:** Ping 0x01
 
-**Link challenge:** [Here](https://battle.cookiearena.org/skills-path/os-command-injection/challenge/ping-0x01)
+**Link challenge:** [Here](https://battle.cookiearena.org/challenges/web/ping-0x01)
 
 **Tác giả challenge:** MEME
 

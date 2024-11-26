@@ -2,7 +2,7 @@
 
 **Tên challenge:** SVATTT 2016 Quals Curl
 
-**Link challenge:** [Here](https://battle.cookiearena.org/skills-path/os-command-injection/challenge/svattt-2016-quals-curl)
+**Link challenge:** [Here](https://battle.cookiearena.org/challenges/web/svattt-2016-quals-curl)
 
 **Tác giả challenge:** COLLECTOR
 

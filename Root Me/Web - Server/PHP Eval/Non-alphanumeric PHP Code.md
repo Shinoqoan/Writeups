@@ -52,7 +52,7 @@ Dựa vào Source Code, ta có thể xác định ngay lổ hổng nằm ở đo
 ```
 eval('print '.$_POST['input'].";");
 ```
-**Giải thích:**
+<u>**Giải thích:**</u>
 * Hàm `eval` trong PHP là một hàm đặc biệt cho phép thực thi mã PHP được truyền dưới dạng chuỗi.
 
 **VD:**
@@ -74,7 +74,7 @@ if(!preg_match('/[a-zA-Z`]/', $_POST['input']))
 
 Vậy thì ta phải làm sao để thực thi được Command và đọc file `.passwd` nếu không thể nhập được chữ cái ?
 
-**Trả lời:**
+<u>**Trả lời:**</u>
 * Sau khi đọc và tìm hiểu thì tôi tìm ra tài liệu có thể giúp Bypass được điều này: [Link](https://securityonline.info/bypass-waf-php-webshell-without-numbers-letters/)
 * Cụ thể, ta sẽ sử dụng những ký tự như `$`, `_`, `;`, `.`,... thay cho các chữ cái.
 * **VD:** Trong PHP, ta có: `$a = 'Z'` thì khi ta `$a++` => `$a` sẽ trở thành `AA` thay vì là `[` như trong ngôn ngữ C.

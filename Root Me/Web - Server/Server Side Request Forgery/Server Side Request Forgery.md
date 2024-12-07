@@ -96,5 +96,3 @@ Tiếp đến, ta sẽ lắng nghe ở port `1234` trong máy mình thông qua l
 Đợi 1 lúc thì ta sẽ thấy ta đã kết nối được với Shell
 
 Tiếp theo, bạn chỉ cần đọc dùng lệnh `cat /passwd` thôi là được.
-
-![alt text](./images/image-3.png)

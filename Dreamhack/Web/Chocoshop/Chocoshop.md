@@ -112,7 +112,7 @@ def coupon_submit(user):
 * Tiếp đến là kiểm tra thời gian `Submit Coupon` giữa các lần kế nhau của người dùng, mục đích là ngăn người dùng `Submit Coupon` nhiều lần trong một khoảng thời gian nhất định.
 * Cuối cùng kiểm tra xem `Coupon` đã được sử dụng chưa và nếu `Coupon` đã được sử dụng thì trả về `Bad Request`.
 * Nếu `Coupon` chưa được sử dụng ( `used_coupon` ) thì tiếp tục kiểm tra xem `uuid` của `user` có khớp với `user` trên `coupon` hay không. Nếu khớp thì đặt thời gian hết hạn của `used_coupon` dựa trên thời gian hết hạn của `coupon` và tăng tiền của người dùng bằng số tiền `coupon`.
-```
+```python
 @app.route('/coupon/claim')
 @get_session()
 def coupon_claim(user):
@@ -129,7 +129,7 @@ def coupon_claim(user):
 ```
 <u>**Giải thích:**</u>
 * Đây là hàm `Claim Coupon`, tóm lại là hàm này có chức năng sinh ra `Coupon` nhưng mỗi user chỉ sinh ra được Coupon 1 lần duy nhất và không thể sinh ra Coupon lần 2 vì biến `user['coupon_claimed']` sẽ được set thành `True` sau khi bạn claim ra `Coupon` lần đầu tiên và mỗi lần bạn muốn claim ra Coupon thì biến này sẽ được kiểm tra, nếu là `True` thì sẽ không sinh ra `Coupon`.
-```
+```python
 @app.route('/session')
 def make_session():
     uuid = uuid4().hex
@@ -201,7 +201,7 @@ Tóm lại, nếu ta Submit Coupon trong khoảng từ 10 giây đến 45 giây,
 Vậy thì làm sao để khai thác được Challenge này đây ?
 
 **Trả lời:** Nếu như ta đọc lại đoạn code chỗ này thì sẽ thấy Logic của Code có vấn đề:
-```
+```python
 if coupon['expiration'] < int(time()):
         raise BadRequest('Coupon expired!')
 
@@ -233,7 +233,7 @@ if coupon['expiration'] < int(time()):
 => Về cơ bản ta có thể lợi dụng thời điểm giây 45 để vượt qua cơ chế kiểm tra không chặt chẽ của chương trình và từ đó có thể sử dụng lại `coupon`.
 
 Để khai thác lỗ hổng trên, ta có thể dùng code sau:
-```
+```python
 import requests
 import json
 import time

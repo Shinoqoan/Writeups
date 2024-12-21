@@ -1,6 +1,6 @@
 # NoSQL Injection
 
-**Tên challenge:**  Not-only
+**Tên challenge:** Not-only
 
 **Link challenge:** [Here](https://dreamhack.io/wargame/challenges/1619)
 

